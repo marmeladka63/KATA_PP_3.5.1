@@ -37,16 +37,16 @@ public class AdminRestController {
 
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid User user) {
+    public ResponseEntity<HttpStatus> createUser(@RequestBody  User user) {
         userService.saveUser(user);
         return ResponseEntity.ok(HttpStatus.OK);
 
     }
-    @PatchMapping("/edit")
-    public ResponseEntity<HttpStatus> update(@RequestBody @Valid User user){
+    @PatchMapping ("/{id}")
+    public ResponseEntity<HttpStatus> update( @RequestBody User user){
 
-        userService.update( user);
-        return new ResponseEntity<>(HttpStatus.OK);
+        userService.saveUser(user);
+        return new ResponseEntity <> (HttpStatus.OK);
     }
 
 

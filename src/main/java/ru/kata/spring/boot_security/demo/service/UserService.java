@@ -10,11 +10,11 @@ public interface UserService {
 
     User findUserById(Long id);
 
-    void saveUser(User user);
+    void saveUser(User use);
 
     void delete(Long id);
 
-    void update( User user);
+    void update(User user);
 
     User getUserByUsername(String username);
 

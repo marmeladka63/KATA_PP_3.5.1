@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         updateUser.setPassword(bCryptPasswordEncoder.encode(updateUser.getPassword()));
         userRepository.save(updateUser);
     }
-  /*      User user = userRepository.getById(updateUser.getId());
+       /* User user = userRepository.getById(updateUser.getId());
         user.setUsername(updateUser.getUsername());
         user.setLastname(updateUser.getLastname());
         user.setAge(updateUser.getAge());
@@ -83,8 +83,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setRoles(updateUser.getRoles());
         userRepository.save(user);
 
-    }*/
-
+    }
+*/
     @Override
     public User getUserByUsername(String username) {
 

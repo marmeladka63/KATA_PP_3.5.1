@@ -2,6 +2,8 @@ package ru.kata.spring.boot_security.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -16,10 +18,12 @@ public class Role implements GrantedAuthority {
     private Long id;
     @Column
     private String role;
-
-   @JsonBackReference
-    @ManyToMany(mappedBy = "roles" )
-    private Set<User> users;
+/*
+   @JsonBackReference*/
+/*    @ManyToMany(mappedBy = "roles" )*/
+@ManyToMany(mappedBy = "roles")
+@JsonBackReference
+private Set<User> users;
 
     public Role() {
     }
@@ -31,7 +35,6 @@ public class Role implements GrantedAuthority {
     public void setRole(String role) {
         this.role = role;
     }
-
     public Set<User> getUsers() {
         return users;
     }

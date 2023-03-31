@@ -1,54 +1,53 @@
-const editForm = document.getElementById('editForm');
-const edit_id = document.getElementById('edit_id');
-const edit_name = document.getElementById('edit_name');
-const edit_lastName = document.getElementById('edit_lastName');
-const edit_age = document.getElementById('edit_age');
-const edit_email = document.getElementById('edit_email');
-const edit_password = document.getElementById('edit_password');
+$(async function() {
+    editUser();
+});
 
-async function editModal(id) {
-    const urlDataEdit = '/api/admin/' + id;
-    let modalEdit = await fetch(urlDataEdit);
-    if (modalEdit.ok) {
-        let userData =
-            await modalEdit.json().then(async user => {
-                edit_id.value = `${user.id}`;
-                edit_name.value = `${user.username}`;
-                edit_lastName.value = `${user.lastname}`;
-                edit_age.value = `${user.age}`;
-                edit_email.value = `${user.email}`;
-            })
-    } else {
-        alert(`Error, ${modalEdit.status}`)
-    }
-}
+function editUser() {
+    const editForm = document.forms["formEditUser"];
+    editForm.addEventListener("submit", ev => {
+        ev.preventDefault();
 
-async function editUser() {
-    let urlEdit = '/api/admin/' + edit_id.value;
-    let roles = [];
-    for (let i = 0; i < editForm.roles.options.length; i++) {
-        if (editForm.roles.options[i].selected) {
-            roles.push("ROLE_" + editForm.roles.options[i].value);
+        const selected_options = document.querySelector('#sel_roles1').selectedOptions;
+
+        const rolesNamesArray = new Array(selected_options.length);
+        for (let i = 0; i < selected_options.length; i++) {
+            rolesNamesArray[i] = selected_options[i].value;
         }
-    }
-    let method = {
-        method: 'PATCH',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            name: editForm.username.value,
-            lastName: editForm.lastname.value,
-            age: editForm.age.value,
-            email: editForm.email.value,
-            password: editForm.password.value,
-            roles: roles
-        })
-    }
 
-    await fetch(urlEdit, method).then(() => {
-        $('#editFrom_closeButton').click();
-        tableBuilder();
+        fetch(`http://localhost:8088/api/admin/` + editForm.id.value, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: editForm.id.value,
+                firstName: editForm.username.value,
+                lastName: editForm.lastname.value,
+                age: editForm.age.value,
+                email: editForm.email.value,
+                password: editForm.password.value,
+                roles: rolesNamesArray
+            })
+        }).then(() => {
+            $('#editFormCloseButton').click();
+            tableBuilder();
+        })
     })
 }
 
+$('#edit').on('show.bs.modal', ev => {
+    const button = $(ev.relatedTarget);
+    const id = button.data('id');
+    editUsers(id);
+})
+
+async function editUsers(id) {
+    const user = await getUser(id);
+    const form = document.forms["formEditUser"];
+    form.id.value = user.id;
+    form.username.value = user.username;
+    form.lastname.value = user.lastname;
+    form.age.value = user.age;
+    form.email.value = user.email;
+    form.password.value = user.password;
+}

@@ -9,11 +9,13 @@
         <module name="PP_3_1_4_Boot_Security Bootstrap" />
         <module name="spring-boot_security-demo" />
         <module name="PP_3_1_5_REST_JS" />
+        <module name="KATA_PP_3.5.1" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="KATA_PP_3.5.1" options="-parameters" />
       <module name="PP_3_1_4_Boot_Security Bootstrap" options="-parameters" />
       <module name="PP_3_1_5_REST_JS" options="-parameters" />
       <module name="spring-boot_security-demo" options="-parameters" />
